@@ -1,0 +1,26 @@
+name: Laravel automate test runner
+
+on: [push, pull_request]
+
+jobs:
+  laravel-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, pdo_mysql, bcmath
+
+      - name: Config env file
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Install Composer
+        run : composer install --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-reqs --no-security-blocking
+
+
+
